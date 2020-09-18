@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <div class="searchBar">
+      <img src alt="Lupa" />
+      <input type="text" @keydown.enter="submitSearch" placeholder="Buscar por oportunidades..." />
+    </div>
+    <div v-for="(result, index) in results" :key="index">
+      <p>{{result}}</p>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+// @ == v-on:
 export default {
   name: "Home",
-  components: {
-    HelloWorld
+  data: () => ({
+    results: ["Erick", "Guerrero"]
+  }),
+  methods: {
+    submitSearch() {
+      console.log("Erick Otário");
+    }
   }
 };
 </script>
+<style scoped>
+.searchBar {
+  width: 500px;
+}
+</style>
