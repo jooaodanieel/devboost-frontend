@@ -4,6 +4,7 @@
       <img src alt="Lupa" />
       <input
         type="text"
+        v-model="input"
         @keydown.enter="submitSearch"
         placeholder="Buscar por oportunidades..."
       />
@@ -35,11 +36,17 @@
 export default {
   name: "Home",
   data: () => ({
-    opportunities: []
+    opportunities: [],
+    input: ""
+
   }),
   methods: {
     submitSearch() {
-      
+
+      const filtered = this.opportunities.filter((opportunity) => {
+        return opportunity.title.includes(this.input);
+      });
+      console.log(filtered)
     }
   },
   async created() {
