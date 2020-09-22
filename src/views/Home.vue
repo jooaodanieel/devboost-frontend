@@ -9,16 +9,16 @@
       />
     </div>
 
-    <div class="card" v-for="(result, index) in results" :key="index">
+    <div class="card" v-for="(opportunity, index) in opportunities" :key="index">
       <div class="card-container">
         <div class="opportunity-info">
-          <p>Titulo: {{ result.title }}</p>
-          <p>Autor: {{ result.author }}</p>
-          <p>{{ result.desc }}</p>
+          <p>Titulo: {{ opportunity.title }}</p>
+          <p>Autor: {{ opportunity.author }}</p>
+          <p>{{ opportunity.description }}</p>
         </div>
 
         <div class="tags-container">
-          <div class="tag" v-for="(tag, index) in result.tags" :key="index">
+          <div class="tag" v-for="(tag, index) in opportunity.tags" :key="index">
             {{ tag }}
           </div>
         </div>
@@ -35,20 +35,7 @@
 export default {
   name: "Home",
   data: () => ({
-    results: [
-      {
-        title: "Inter",
-        author: "Guerrero",
-        desc: "fasdf",
-        tags: ["Estágio", "IC"]
-      },
-      {
-        title: "AIFjaoi",
-        author: "lorem",
-        desc: "ipsum",
-        tags: ["IC", "Monitoria"]
-      }
-    ]
+    opportunities: []
   }),
   methods: {
     submitSearch() {
@@ -56,10 +43,11 @@ export default {
     }
   },
   async created() {
-    const { body } = await fetch(
+    const response = await fetch(
       "https://my-json-server.typicode.com/jooaodanieel/db-devboost/oportunities"
     );
-    console.log(await body.toString());
+    const body = await response.json();
+    this.opportunities = body;
   }
 };
 </script>
