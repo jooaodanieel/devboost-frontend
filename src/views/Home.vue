@@ -44,7 +44,7 @@ export default {
   },
   async created() {
     const response = await fetch(
-      "https://my-json-server.typicode.com/jooaodanieel/db-devboost/oportunities"
+      "http://localhost:3000/opportunities"
     );
     const body = await response.json();
     this.opportunities = body;
