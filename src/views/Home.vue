@@ -10,7 +10,7 @@
       />
     </div>
 
-    <div class="card" v-for="(opportunity, index) in opportunities" :key="index">
+    <div class="card" v-for="(opportunity, index) in filteredOpportunities" :key="index">
       <div class="card-container">
         <div class="opportunity-info">
           <p>Titulo: {{ opportunity.title }}</p>
@@ -37,7 +37,9 @@ export default {
   name: "Home",
   data: () => ({
     opportunities: [],
+    filtered: [],
     input: ""
+    
 
   }),
   methods: {
@@ -46,12 +48,18 @@ export default {
       const filtered = this.opportunities.filter((opportunity) => {
         return opportunity.title.includes(this.input);
       });
-      console.log(filtered)
+      this.filtered = filtered;
+
+    }
+  },
+  computed: {
+    filteredOpportunities(){
+        return this.filtered;
     }
   },
   async created() {
     const response = await fetch(
-      "http://localhost:3000/opportunities"
+      "https://my-json-server.typicode.com/jooaodanieel/db-devboost/oportunities"
     );
     const body = await response.json();
     this.opportunities = body;
