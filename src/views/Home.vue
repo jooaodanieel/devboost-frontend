@@ -4,12 +4,13 @@
       <img src alt="Lupa" />
       <input
         type="text"
+        v-model="input"
         @keydown.enter="submitSearch"
         placeholder="Buscar por oportunidades..."
       />
     </div>
 
-    <div class="card" v-for="(opportunity, index) in opportunities" :key="index">
+    <div class="card" v-for="(opportunity, index) in filteredOpportunities" :key="index">
       <div class="card-container">
         <div class="opportunity-info">
           <p>Titulo: {{ opportunity.title }}</p>
@@ -35,11 +36,25 @@
 export default {
   name: "Home",
   data: () => ({
-    opportunities: []
+    opportunities: [],
+    filtered: [],
+    input: ""
+    
+
   }),
   methods: {
     submitSearch() {
-      
+
+      const filtered = this.opportunities.filter((opportunity) => {
+        return opportunity.title.includes(this.input);
+      });
+      this.filtered = filtered;
+
+    }
+  },
+  computed: {
+    filteredOpportunities(){
+        return this.filtered;
     }
   },
   async created() {
