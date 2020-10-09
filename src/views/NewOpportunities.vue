@@ -3,11 +3,19 @@
     <div class="form">
       <form>
         <div class="input-field">
+          <label for="image">Imagem </label>
+          <input name="image" type="file" @change="handleChange"> <br />
+          <div v-if="image != undefined">
+            <img :src="window.URL.createObjectURL(image)">
+          </div>
+
+        </div>
+        <div class="input-field">
           <label for="title">Título </label>
           <input name="title" type="text" v-model="title" /><br />
         </div>
         <div class="input-field">
-          <label for="author">Autor </label>
+          <label for="author">Resumo </label>
           <textarea name="author" type="text" v-model="author" /><br />
         </div>
         <div class="input-field">
@@ -31,7 +39,8 @@ export default {
   data: () => ({
     title: "",
     author: "",
-    description: ""
+    description: "",
+    image: undefined
   }),
   methods: {
     async registerOpportunities() {
@@ -46,8 +55,13 @@ export default {
       });
 
       console.log("RESPONSE: ", response.data);
+    },
+    handleChange(evt){
+      this.image = evt.target.files[0];
+      console.log(this.image);
     }
   }
+
 };
 </script>
 
