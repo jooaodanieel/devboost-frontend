@@ -4,11 +4,8 @@
       <form>
         <div class="input-field">
           <label for="image">Imagem </label>
-          <input name="image" type="file" @change="handleChange"> <br />
-          <div v-if="image != undefined">
-            <img :src="window.URL.createObjectURL(image)">
-          </div>
-
+          <input name="image" type="file" @change="handleChange" /> <br />
+          <img v-if="image != undefined" class="imgPreview" :src="imgSrc" />
         </div>
         <div class="input-field">
           <label for="title">Título </label>
@@ -20,7 +17,11 @@
         </div>
         <div class="input-field">
           <label for="description">Descrição</label>
-          <textarea name="description" type="text" v-model="description" /><br />
+          <textarea
+            name="description"
+            type="text"
+            v-model="description"
+          /><br />
         </div>
       </form>
       <div class="buttons">
@@ -40,7 +41,8 @@ export default {
     title: "",
     author: "",
     description: "",
-    image: undefined
+    image: undefined,
+    imgSrc: ""
   }),
   methods: {
     async registerOpportunities() {
@@ -56,17 +58,15 @@ export default {
 
       console.log("RESPONSE: ", response.data);
     },
-    handleChange(evt){
+    handleChange(evt) {
       this.image = evt.target.files[0];
-      console.log(this.image);
+      this.imgSrc = URL.createObjectURL(this.image);
     }
   }
-
 };
 </script>
 
 <style scoped>
-
 .new {
   display: flex;
   flex-direction: column;
@@ -74,8 +74,8 @@ export default {
   justify-content: center;
 }
 
-.form{
-  background-color: #9AD8F2;
+.form {
+  background-color: #9ad8f2;
   margin: 50px auto;
   padding: 20px;
   width: 80%;
@@ -103,7 +103,7 @@ export default {
   height: 2rem;
 }
 
-.input-field textarea{
+.input-field textarea {
   resize: vertical;
   border: none;
   height: 100px;
@@ -112,25 +112,30 @@ export default {
   border-radius: 6px;
 }
 
-.buttons{
+.buttons {
   width: 25%;
   display: flex;
   align-items: flex-end;
   margin-bottom: 18px;
 }
-.buttons button{
-  background-color: #673AB7;
+.buttons button {
+  background-color: #673ab7;
   color: white;
   border: none;
   border-radius: 10px;
   width: 80%;
   height: 60px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   transition: 0.2s;
 }
 
-.buttons button:hover{
+.buttons button:hover {
   background-color: #57309b;
+}
+
+.imgPreview {
+  max-width: 400px;
+  max-height: 400px;
 }
 </style>
