@@ -1,12 +1,30 @@
 <template>
   <div>
-    <div id="searchBar">
+    <div id="titleSearchBar">
       <img src alt="Lupa" />
       <input
         type="text"
-        v-model="input"
+        v-model="title"
         @keydown.enter="submitSearch"
-        placeholder="Buscar por oportunidades..."
+        placeholder="Buscar pelo título..."
+      />
+    </div>
+    <div id="authorSearchBar">
+      <img src alt="Lupa" />
+      <input
+        type="text"
+        v-model="author"
+        @keydown.enter="submitSearch"
+        placeholder="Buscar por autor..."
+      />
+    </div>
+    <div id="descriptionSearchBar">
+      <img src alt="Lupa" />
+      <textarea
+        type="text"
+        v-model="description"
+        @keydown.enter="submitSearch"
+        placeholder="Buscar pela descrição..."
       />
     </div>
 
