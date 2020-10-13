@@ -1,16 +1,38 @@
 <template>
   <div>
-    <div id="searchBar">
+    <div id="titleSearchBar">
       <img src alt="Lupa" />
       <input
         type="text"
-        v-model="input"
+        v-model="title"
         @keydown.enter="submitSearch"
-        placeholder="Buscar por oportunidades..."
+        placeholder="Buscar pelo título..."
+      />
+    </div>
+    <div id="authorSearchBar">
+      <img src alt="Lupa" />
+      <input
+        type="text"
+        v-model="author"
+        @keydown.enter="submitSearch"
+        placeholder="Buscar por autor..."
+      />
+    </div>
+    <div id="descriptionSearchBar">
+      <img src alt="Lupa" />
+      <textarea
+        type="text"
+        v-model="description"
+        @keydown.enter="submitSearch"
+        placeholder="Buscar pela descrição..."
       />
     </div>
 
-    <div class="card" v-for="(opportunity, index) in filteredOpportunities" :key="index">
+    <div
+      class="card"
+      v-for="(opportunity, index) in filteredOpportunities"
+      :key="index"
+    >
       <div class="card-container">
         <div class="opportunity-info">
           <p>Titulo: {{ opportunity.title }}</p>
@@ -19,7 +41,11 @@
         </div>
 
         <div class="tags-container">
-          <div class="tag" v-for="(tag, index) in opportunity.tags" :key="index">
+          <div
+            class="tag"
+            v-for="(tag, index) in opportunity.tags"
+            :key="index"
+          >
             {{ tag }}
           </div>
         </div>
@@ -32,37 +58,39 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 // @ == v-on:
 export default {
   name: "Home",
   data: () => ({
     opportunities: [],
     filtered: [],
-    input: ""
-    
-
+    title: "",
+    description: "",
+    author: "",
   }),
   methods: {
     submitSearch() {
-
-      const filtered = this.opportunities.filter((opportunity) => {
-        return opportunity.title.includes(this.input);
-      });
+      const filtered = axios
+        .get("http://localhost:3000/opportunities", {params: {title: "IC"}})
+        .then(response => {
+          console.log(response.body);
+        });
       this.filtered = filtered;
-
     }
   },
   computed: {
-    filteredOpportunities(){
-        return this.filtered;
+    filteredOpportunities() {
+      return this.filtered;
     }
   },
   async created() {
-    const response = await fetch(
-      "https://my-json-server.typicode.com/jooaodanieel/db-devboost/oportunities"
-    );
+    const response = await fetch("http://localhost:3000/opportunities");
     const body = await response.json();
-    this.opportunities = body;
+    console.log(body);
+    this.filtered = body.opportunities;
   }
 };
 </script>
