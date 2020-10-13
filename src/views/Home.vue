@@ -5,7 +5,6 @@
       <input
         type="text"
         v-model="title"
-        @keydown.enter="submitSearch"
         placeholder="Buscar pelo título..."
       />
     </div>
@@ -14,7 +13,6 @@
       <input
         type="text"
         v-model="author"
-        @keydown.enter="submitSearch"
         placeholder="Buscar por autor..."
       />
     </div>
@@ -23,9 +21,11 @@
       <textarea
         type="text"
         v-model="description"
-        @keydown.enter="submitSearch"
         placeholder="Buscar pela descrição..."
       />
+    </div>
+    <div class="submitSearch">
+      <button @click="submitSearch">Submit</button>
     </div>
 
     <div
@@ -72,13 +72,14 @@ export default {
     author: "",
   }),
   methods: {
-    submitSearch() {
-      const filtered = axios
-        .get("http://localhost:3000/opportunities", {params: {title: "IC"}})
-        .then(response => {
-          console.log(response.body);
-        });
-      this.filtered = filtered;
+    async submitSearch() {
+      const response = await axios.get("http://localhost:3000/opportunities", 
+      {params: 
+      {title: this.title,
+       description: this.description,
+       author: this.author
+       }});
+      this.filtered = response.data.opportunities;
     }
   },
   computed: {
@@ -87,9 +88,8 @@ export default {
     }
   },
   async created() {
-    const response = await fetch("http://localhost:3000/opportunities");
-    const body = await response.json();
-    console.log(body);
+    const response = await axios.get("http://localhost:3000/opportunities");
+    const body = await response.data;
     this.filtered = body.opportunities;
   }
 };
