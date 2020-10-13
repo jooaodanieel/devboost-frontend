@@ -2,7 +2,11 @@
   <div class="new">
     <div class="form">
       <form>
-        <div class="input-field">
+        <div class="checkbox-field" v-for="(tag,index) in tags" :key="index">
+          <input :name="tag" type="checkbox" :value="tag" v-model="selectedTags"/>
+          <label :for="tag">{{tag}}</label>
+        </div>
+        <div class="input-field" >
           <label for="image">Imagem </label>
           <input name="image" type="file" @change="handleChange" /> <br />
           <img v-if="image != undefined" class="imgPreview" :src="imgSrc" />
@@ -12,8 +16,8 @@
           <input name="title" type="text" v-model="title" /><br />
         </div>
         <div class="input-field">
-          <label for="author">Resumo </label>
-          <textarea name="author" type="text" v-model="author" /><br />
+          <label for="summary">Resumo </label>
+          <textarea name="summary" type="text" v-model="summary" /><br />
         </div>
         <div class="input-field">
           <label for="description">Descrição</label>
@@ -39,10 +43,13 @@ import axios from "axios";
 export default {
   data: () => ({
     title: "",
-    author: "",
+    author: "Em construção",
+    summary: "",
     description: "",
     image: undefined,
-    imgSrc: ""
+    imgSrc: "",
+    tags: ["Emprego","IC","Bolsa","Monitoria"],
+    selectedTags: []
   }),
   methods: {
     async registerOpportunities() {
@@ -53,7 +60,9 @@ export default {
       const response = await axios.post("http://localhost:3000/opportunities", {
         title: this.title,
         author: this.author,
-        description: this.description
+        description: this.description,
+        summary: this.summary,
+        tags: this.selectedTags
       });
 
       console.log("RESPONSE: ", response.data);
