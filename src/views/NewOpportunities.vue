@@ -1,37 +1,56 @@
 <template>
   <div class="new">
     <div class="form">
-      <form>
-        <div class="checkbox-field" v-for="(tag,index) in tags" :key="index">
-          <input :name="tag" type="checkbox" :value="tag" v-model="selectedTags"/>
-          <label :for="tag">{{tag}}</label>
+      <div class="heading">
+        <header>
+          <h1>Cadastrar nova oportunidade</h1>
+        </header>
+      </div>
+      <div class="content">
+        <form>
+          <p>Tags:</p>
+          <div class="checkbox-wrapper">
+            <div
+              class="checkbox-field"
+              v-for="(tag, index) in tags"
+              :key="index"
+            >
+              <input
+                :name="tag"
+                type="checkbox"
+                :value="tag"
+                v-model="selectedTags"
+              />
+              <label :for="tag">{{ tag }}</label>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="image">Imagem </label>
+            <input name="image" type="file" @change="handleChange" /> <br />
+            <img v-if="image != undefined" class="imgPreview" :src="imgSrc" />
+          </div>
+          <div class="input-field">
+            <label for="title">Título </label>
+            <input name="title" type="text" v-model="title" /><br />
+          </div>
+          <div class="input-field">
+            <label for="summary">Resumo </label>
+            <textarea name="summary" type="text" v-model="summary" /><br />
+          </div>
+          <div class="input-field">
+            <label for="description">Descrição</label>
+            <textarea
+              name="description"
+              type="text"
+              v-model="description"
+            /><br />
+          </div>
+        </form>
+        <div class="buttons">
+          <button type="button" @click="registerOpportunities">
+            Cadastrar
+          </button>
         </div>
-        <div class="input-field" >
-          <label for="image">Imagem </label>
-          <input name="image" type="file" @change="handleChange" /> <br />
-          <img v-if="image != undefined" class="imgPreview" :src="imgSrc" />
-        </div>
-        <div class="input-field">
-          <label for="title">Título </label>
-          <input name="title" type="text" v-model="title" /><br />
-        </div>
-        <div class="input-field">
-          <label for="summary">Resumo </label>
-          <textarea name="summary" type="text" v-model="summary" /><br />
-        </div>
-        <div class="input-field">
-          <label for="description">Descrição</label>
-          <textarea
-            name="description"
-            type="text"
-            v-model="description"
-          /><br />
-        </div>
-      </form>
-      <div class="buttons">
-        <button type="button" @click="registerOpportunities">
-          Cadastrar
-        </button>
       </div>
     </div>
   </div>
@@ -48,7 +67,7 @@ export default {
     description: "",
     image: undefined,
     imgSrc: "",
-    tags: ["Emprego","IC","Bolsa","Monitoria"],
+    tags: ["Emprego", "IC", "Bolsa", "Monitoria"],
     selectedTags: []
   }),
   methods: {
@@ -88,6 +107,16 @@ export default {
   margin: 50px auto;
   padding: 20px;
   width: 80%;
+  border-radius: 10px;
+}
+
+.form .heading {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.form .content {
   display: flex;
   justify-content: space-evenly;
 }
@@ -95,15 +124,31 @@ export default {
 .form form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-end;
   width: 65%;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.checkbox-field {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 10px 5px 0;
+}
+
+.checkbox-field label {
+  margin: 0 3px;
 }
 
 .input-field {
   display: flex;
   width: 65%;
   flex-direction: column;
+  margin-bottom: 10px;
 }
 
 .input-field input {
