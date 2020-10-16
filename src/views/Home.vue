@@ -2,7 +2,7 @@
   <div>
     <div class="upperSearchBars">
       <div class="titleSearchBar">
-        <img src alt="Lupa" />
+        <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
         <input
           v-on:keyup.enter="submitSearch"
           type="text"
@@ -11,7 +11,7 @@
         />
       </div>
       <div class="authorSearchBar">
-        <img src alt="Lupa" />
+        <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
         <input
           v-on:keyup.enter="submitSearch"
           type="text"
@@ -21,10 +21,9 @@
       </div>
     </div>
     <div class="descriptionSearchBar">
-      <img src alt="Lupa" />
+      <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
       <textarea
-        v-on:keyup.enter.prevent
-        v-on:keyup.enter="submitSearch"
+        v-on:keydown.enter.prevent="submitSearch"
         type="text"
         v-model="description"
         placeholder="Buscar pela descrição..."
@@ -126,5 +125,28 @@ export default {
 .upperSearchBars {
   display: flex;
   align-items: center;
+  margin: 20px;
+}
+
+.titleSearchBar {
+  background-color: #9AD8F2;
+  margin-right: 20px;
+}
+
+.authorSearchBar {
+  background-color: #9AD8F2;
+}
+
+.descriptionSearchBar {
+  background-color: #9AD8F2;
+}
+
+textarea {
+  resize: none;
+  width: 500px;
+}
+
+img {
+  width: 20px;
 }
 </style>
