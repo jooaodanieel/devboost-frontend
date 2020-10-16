@@ -1,23 +1,37 @@
 <template>
   <div>
-    <div id="titleSearchBar">
-      <img src alt="Lupa" />
-      <input type="text" v-model="title" placeholder="Buscar pelo título..." />
+    <div class="upperSearchBars">
+      <div class="titleSearchBar">
+        <img src alt="Lupa" />
+        <input
+          v-on:keyup.enter="submitSearch"
+          type="text"
+          v-model="title"
+          placeholder="Buscar pelo título..."
+        />
+      </div>
+      <div class="authorSearchBar">
+        <img src alt="Lupa" />
+        <input
+          v-on:keyup.enter="submitSearch"
+          type="text"
+          v-model="author"
+          placeholder="Buscar por autor..."
+        />
+      </div>
     </div>
-    <div id="authorSearchBar">
-      <img src alt="Lupa" />
-      <input type="text" v-model="author" placeholder="Buscar por autor..." />
-    </div>
-    <div id="descriptionSearchBar">
+    <div class="descriptionSearchBar">
       <img src alt="Lupa" />
       <textarea
+        v-on:keyup.enter.prevent
+        v-on:keyup.enter="submitSearch"
         type="text"
         v-model="description"
         placeholder="Buscar pela descrição..."
       />
     </div>
     <div class="submitSearch">
-      <button @click="submitSearch">Submit</button>
+      <button @click="submitSearch">Procurar</button>
     </div>
 
     <div
@@ -107,5 +121,10 @@ export default {
   background-color: blueviolet;
   width: 300px;
   align-self: flex-end;
+}
+
+.upperSearchBars {
+  display: flex;
+  align-items: center;
 }
 </style>
