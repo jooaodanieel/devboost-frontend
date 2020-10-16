@@ -67,7 +67,7 @@ export default {
     description: "",
     image: undefined,
     imgSrc: "",
-    tags: ["Emprego", "IC", "Bolsa", "Monitoria"],
+    tags: [],
     selectedTags: []
   }),
   methods: {
@@ -90,6 +90,11 @@ export default {
       this.image = evt.target.files[0];
       this.imgSrc = URL.createObjectURL(this.image);
     }
+  },
+  async beforeMount() {
+    const response = await axios.get("http://localhost:3000/opportunities/tags");
+    const body = response.data;
+    this.tags = body.tags;
   }
 };
 </script>
