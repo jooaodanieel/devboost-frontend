@@ -22,6 +22,11 @@
                 v-model="selectedTags"
               />
               <label :for="tag">{{ tag }}</label>
+              
+            </div>
+            <div class="checkbox-field">
+              <input v-model="checked" type="checkbox" >
+              <input :style="inputHidden" class="checkbox-text" placeholder="Outros" type="text">
             </div>
           </div>
           <div class="input-field">
@@ -68,8 +73,15 @@ export default {
     image: undefined,
     imgSrc: "",
     tags: [],
-    selectedTags: []
+    selectedTags: [],
+    checked: false
   }),
+  computed:{
+    inputHidden() {
+      console.log(this.checked);
+      return this.checked;
+    },
+  },
   methods: {
     async registerOpportunities() {
       console.log("Title:", this.title);
