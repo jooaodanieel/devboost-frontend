@@ -25,8 +25,9 @@
               
             </div>
             <div class="checkbox-field">
-              <input v-model="checked" type="checkbox" >
-              <input :style="inputHidden" class="checkbox-text" placeholder="Outros" type="text">
+              <input name="other" v-model="checked" type="checkbox" >
+              <label class="placeholder" v-if="!checked" for="other">Outro</label>
+              <input :style="inputHidden" class="checkbox-text" type="text" @keydown.enter="createCheckbox">
             </div>
           </div>
           <div class="input-field">
@@ -78,8 +79,10 @@ export default {
   }),
   computed:{
     inputHidden() {
-      console.log(this.checked);
-      return this.checked;
+      if (this.checked){
+        return "display: inline";
+        }
+      return "display: none";
     },
   },
   methods: {
@@ -101,6 +104,12 @@ export default {
     handleChange(evt) {
       this.image = evt.target.files[0];
       this.imgSrc = URL.createObjectURL(this.image);
+    },
+    createCheckbox(e){
+      console.log(e.target.value)
+      this.tags.push(e.target.value);
+      this.selectedTags.push(e.target.value);
+      e.target.value = "";
     }
   },
   async beforeMount() {
@@ -154,11 +163,27 @@ export default {
 .checkbox-field {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 5px 10px 5px 0;
 }
 
 .checkbox-field label {
   margin: 0 3px;
+}
+
+.checkbox-field .placeholder {
+  opacity: 50%;
+}
+
+.checkbox-field .checkbox-text {
+  margin-left: 3px;
+  padding-left: 5px;
+  background: none;
+  border: 1px solid black;
+  outline: none;
+  width: 100px;
+  height: 25px;
+  border-radius: 6px;
 }
 
 .input-field {
