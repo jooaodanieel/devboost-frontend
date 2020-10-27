@@ -31,47 +31,27 @@
         />
       </div>
 
-      <div
-        class="card box"
-        v-for="(opportunity, index) in filteredOpportunities"
-        :key="index"
-      >
-        <div class="card-container">
-          <div class="opportunity-info">
-            <p>Titulo: {{ opportunity.title }}</p>
-            <p>Autor: {{ opportunity.author }}</p>
-            <p>{{ opportunity.description }}</p>
-          </div>
-
-          <div class="tags-container">
-            <div
-              class="tag"
-              v-for="(tag, index) in opportunity.tags"
-              :key="index"
-            >
-              {{ tag }}
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-more-info">Saiba Mais</button>
-      </div>
+      <Card :filteredOpportunities="filteredOpportunities" />
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Card from "@/components/Card.vue";
 
 // @ == v-on:
 export default {
   name: "Home",
+  components: {
+    Card,
+  },
   data: () => ({
     opportunities: [],
     filtered: [],
     title: "",
     description: "",
-    author: ""
+    author: "",
   }),
   methods: {
     async submitSearch() {
@@ -79,43 +59,30 @@ export default {
         params: {
           title: this.title,
           description: this.description,
-          author: this.author
-        }
+          author: this.author,
+        },
       });
       this.filtered = response.data.opportunities;
-    }
+    },
   },
   computed: {
     filteredOpportunities() {
       return this.filtered;
-    }
+    },
   },
   async created() {
     const response = await axios.get("http://localhost:3000/opportunities");
     const body = await response.data;
     this.filtered = body.opportunities;
-  }
+  },
 };
 </script>
 <style scoped>
-
 .mainContent {
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.card {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.card-container {
-  display: flex;
-  justify-content: space-between;
 }
 
 .box {
@@ -139,8 +106,13 @@ export default {
 
 .btn-more-info {
   background-color: blueviolet;
+  margin-top: 1rem;
+  border: none;
   width: 30%;
   align-self: flex-end;
+  color: white;
+  border-radius: 4px;
+  height: 2.4rem;
 }
 
 .upperSearchBars {
