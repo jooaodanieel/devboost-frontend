@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="card box"
-    v-for="(opportunity, index) in filteredOpportunities"
-    :key="index"
-  >
+  <div class="card box">
     <div class="card-container">
       <div class="opportunity-info">
         <p>Titulo: {{ opportunity.title }}</p>
@@ -24,10 +20,7 @@
 
 <script>
 export default {
-  props: ["filling"],
-  data: {
-    filteredOpportunities,
-  },
+  props: ["opportunity"]
 };
 </script>
 
@@ -37,6 +30,10 @@ export default {
   padding: 10px;
   background-color: #9ad8f2;
   border-radius: 4px;
+}
+
+.tag {
+  background-color: aquamarine;
 }
 
 .card {
@@ -49,5 +46,16 @@ export default {
 .card-container {
   display: flex;
   justify-content: space-between;
+}
+
+.btn-more-info {
+  background-color: blueviolet;
+  margin-top: 1rem;
+  border: none;
+  width: 30%;
+  align-self: flex-end;
+  color: white;
+  border-radius: 4px;
+  height: 2.4rem;
 }
 </style>

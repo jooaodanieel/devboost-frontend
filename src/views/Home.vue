@@ -31,7 +31,11 @@
         />
       </div>
 
-      <Card :filteredOpportunities="filteredOpportunities" />
+      <Card
+        v-for="(opportunity, index) in filteredOpportunities"
+        :key="index"
+        :opportunity="opportunity"
+      />
     </section>
   </div>
 </template>
@@ -44,14 +48,14 @@ import Card from "@/components/Card.vue";
 export default {
   name: "Home",
   components: {
-    Card,
+    Card
   },
   data: () => ({
     opportunities: [],
     filtered: [],
     title: "",
     description: "",
-    author: "",
+    author: ""
   }),
   methods: {
     async submitSearch() {
@@ -59,22 +63,22 @@ export default {
         params: {
           title: this.title,
           description: this.description,
-          author: this.author,
-        },
+          author: this.author
+        }
       });
       this.filtered = response.data.opportunities;
-    },
+    }
   },
   computed: {
     filteredOpportunities() {
       return this.filtered;
-    },
+    }
   },
   async created() {
     const response = await axios.get("http://localhost:3000/opportunities");
     const body = await response.data;
     this.filtered = body.opportunities;
-  },
+  }
 };
 </script>
 <style scoped>
@@ -92,27 +96,12 @@ export default {
   border-radius: 4px;
 }
 
-.tag {
-  background-color: aquamarine;
-}
-
 .upperSearchBars input {
   padding-left: 10px;
   border: none;
   outline: none;
   background-color: inherit;
   width: 100%;
-}
-
-.btn-more-info {
-  background-color: blueviolet;
-  margin-top: 1rem;
-  border: none;
-  width: 30%;
-  align-self: flex-end;
-  color: white;
-  border-radius: 4px;
-  height: 2.4rem;
 }
 
 .upperSearchBars {
