@@ -1,7 +1,7 @@
 <template>
   <div id="tabs">
-          <button id="home" @click="redirect">Ver Oportunidades</button>
-          <button id="newOpportunity" @click="redirect">Cadastar oportunidades</button>
+          <a :class="underline" id="home" @click="redirect">Ver Oportunidades</a>
+          <a :class="underline" id="newOpportunity" @click="redirect">Cadastar oportunidades</a>
   </div>
 </template>
 
@@ -19,6 +19,15 @@ export default {
       }
       console.log(id)
     }
+  },
+  computed: {
+    underline (e) {
+      const path = this.$router.currentRoute.name
+      if (path === "home" && e == "home" || path == "new_opportunities" && e == "newOpportunity")
+        return "item-selected"
+      console.log(path)
+      return ""
+    }
   }
 }
 </script>
@@ -30,10 +39,21 @@ export default {
         width: 100%;
         margin-top: 20px;
     }
-    #tabs button {
+    #tabs a {
         background:none;
         outline: none;
         border: none;
+        font-size: 20px;
+        padding: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        opacity: 70%; 
+    }
+    .item-selected {
+        color : #0049E5;
+        font-weight: bold;
+        border-bottom: 5px solid #0049E5;
+        opacity: 100%;
     }
 </style>
 
