@@ -1,5 +1,17 @@
 <template>
   <div>
+    <div class="modal" v-if="showModal">
+      <transition name="fade">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-container">
+              <p>Lorem</p>
+              <button @click="showModal = false">Back</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
     <section class="mainContent">
       <div class="upperSearchBars">
         <div class="titleSearchBar box">
@@ -30,11 +42,12 @@
           placeholder="Buscar pela descrição..."
         />
       </div>
-
+      <button @click="showModal = true">Mostrar</button>
       <Card
         v-for="(opportunity, index) in filteredOpportunities"
         :key="index"
         :opportunity="opportunity"
+        :modal="modal"
       />
     </section>
   </div>
@@ -48,37 +61,41 @@ import Card from "@/components/Card.vue";
 export default {
   name: "Home",
   components: {
-    Card
+    Card,
   },
   data: () => ({
+    showModal: false,
     opportunities: [],
     filtered: [],
     title: "",
     description: "",
-    author: ""
+    author: "",
   }),
   methods: {
+    modal() {
+      this.showModal = true;
+    },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
         params: {
           title: this.title,
           description: this.description,
-          author: this.author
-        }
+          author: this.author,
+        },
       });
       this.filtered = response.data.opportunities;
-    }
+    },
   },
   computed: {
     filteredOpportunities() {
       return this.filtered;
-    }
+    },
   },
   async created() {
     const response = await axios.get("http://localhost:3000/opportunities");
     const body = await response.data;
     this.filtered = body.opportunities;
-  }
+  },
 };
 </script>
 <style scoped>

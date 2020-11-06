@@ -14,13 +14,18 @@
       </div>
     </div>
 
-    <button class="btn-more-info">Saiba Mais</button>
+    <button class="btn-more-info" @click="modal()">Saiba Mais</button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["opportunity"]
+  props: ["opportunity", "modal"],
+  methods: {
+    showOpportunity() {
+      if (this.modal) this.modal();
+    },
+  },
 };
 </script>
 
