@@ -31,41 +31,25 @@
         />
       </div>
 
-      <div
-        class="card box"
+      <Card
         v-for="(opportunity, index) in filteredOpportunities"
         :key="index"
-      >
-        <div class="card-container">
-          <div class="opportunity-info">
-            <p>Titulo: {{ opportunity.title }}</p>
-            <p>Autor: {{ opportunity.author }}</p>
-            <p>{{ opportunity.description }}</p>
-          </div>
-
-          <div class="tags-container">
-            <div
-              class="tag"
-              v-for="(tag, index) in opportunity.tags"
-              :key="index"
-            >
-              {{ tag }}
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-more-info">Saiba Mais</button>
-      </div>
+        :opportunity="opportunity"
+      />
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Card from "@/components/Card.vue";
 
 // @ == v-on:
 export default {
   name: "Home",
+  components: {
+    Card
+  },
   data: () => ({
     opportunities: [],
     filtered: [],
@@ -98,24 +82,11 @@ export default {
 };
 </script>
 <style scoped>
-
 .mainContent {
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.card {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.card-container {
-  display: flex;
-  justify-content: space-between;
 }
 
 .box {
@@ -125,22 +96,12 @@ export default {
   border-radius: 4px;
 }
 
-.tag {
-  background-color: aquamarine;
-}
-
 .upperSearchBars input {
   padding-left: 10px;
   border: none;
   outline: none;
   background-color: inherit;
   width: 100%;
-}
-
-.btn-more-info {
-  background-color: blueviolet;
-  width: 30%;
-  align-self: flex-end;
 }
 
 .upperSearchBars {
