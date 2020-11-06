@@ -4,17 +4,13 @@
     <a :class="underline[1]" id="newOpportunity" @click="redirect"
       >Cadastar oportunidades</a
     > -->
-    <router-link to="/" id="home" active-class="item-selected">Ver oportunidade</router-link>
-    <router-link to="/opportunities/new" id="newOpportunity" active-class="item-selected">Cadastar oportunidades</router-link>
+    <router-link to="/" tag="button" id="home" exact-active-class="item-selected">Ver oportunidade</router-link>
+    <router-link to="/opportunities/new" tag="button" id="newOpportunity" exact-active-class="item-selected">Cadastar oportunidades</router-link>
   </div>
 </template>
 <script>
-// import router from 'vue-router';
 
 export default {
-  data: () => ({
-    path: "",
-  }),
   methods: {
     redirect(e) {
       const id = e.target.id;
@@ -27,18 +23,6 @@ export default {
       }
     }
   },
-  computed: {
-    underline() {
-      const path = this.$router.currentRoute;
-      console.log(path);
-      // if (this.path == "Home") {
-      //   return ["item-selected", ""];
-      // } else if (this.path == "new_opportunities") {
-      //   return ["", "item-selected"];
-      // }
-      return "";
-    }
-  }
 };
 </script>
 <style scoped>
@@ -49,12 +33,12 @@ export default {
   width: 100%;
   margin-top: 20px;
 }
-.tabs a {
+.tabs * {
   background: none;
   outline: none;
   border: none;
   font-size: 20px;
-  padding: 5px;
+  padding: 3px;
   text-decoration: none;
   cursor: pointer;
   opacity: 70%;
@@ -62,11 +46,17 @@ export default {
 .item-selected {
   color: #0049e5;
   font-weight: bold;
-  border-bottom: 5px solid #0049e5;
+  
   opacity: 100%;
 }
 
-.router-link-active {
-  background-color: black;
+.item-selected:after{
+  content: "";
+  display:block;
+  margin:0 auto;
+  width:50%;
+  border-bottom: 3px solid #0049e5;
 }
+
+
 </style>
