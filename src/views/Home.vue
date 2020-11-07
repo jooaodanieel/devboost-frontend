@@ -1,13 +1,30 @@
 <template>
   <div>
-    <div class="modal" v-if="showModal">
-      <transition name="fade">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-              <p>Lorem</p>
-              <button @click="showModal = false">Back</button>
+    <div class="modal" @click="showModal = false" v-if="showModal">
+      <transition name="modal">
+        <div id="modal-container" @click.stop class="modal-container">
+          <div class="modal-header">
+            <img src="" alt="Imagem Oportunidade" />
+            <div>
+              <p>Título</p>
+              <p>Autor</p>
+              <p>Resumo</p>
+              <div class="modal-contacts">
+                <p>Contato1: 49239432</p>
+                <p>Contato2: @jfsdff</p>
+              </div>
             </div>
+          </div>
+          <div class="modal-description">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              reiciendis, modi omnis dolore voluptatem dolor praesentium placeat
+              iure optio, corporis repudiandae rerum, officia obcaecati sit
+              inventore nesciunt magni nemo ipsam!
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-favorite">Favoritar</button>
           </div>
         </div>
       </transition>
@@ -42,7 +59,6 @@
           placeholder="Buscar pela descrição..."
         />
       </div>
-      <button @click="showModal = true">Mostrar</button>
       <Card
         v-for="(opportunity, index) in filteredOpportunities"
         :key="index"
@@ -154,5 +170,63 @@ textarea {
 
 .mainContent img {
   height: 1rem;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  display: flex;
+  z-index: 2;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 70%;
+  height: 70%;
+  border-radius: 6px;
+  background-color: lightblue;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-header img {
+  margin: 1rem;
+}
+
+.btn-favorite {
+  background-image: linear-gradient(to right, #673ab7, #4b2a80);
+  margin: 1rem;
+  cursor: pointer;
+  border: none;
+  width: 30%;
+  align-self: flex-end;
+  color: white;
+  border-radius: 4px;
+  height: 2.4rem;
 }
 </style>
