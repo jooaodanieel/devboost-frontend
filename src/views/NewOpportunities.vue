@@ -7,12 +7,10 @@
         </header>
       </div>
       <div class="content">
-        <Form :tags="tags" :selectedTags="selectedTags" />
-        <div class="buttons">
-          <button type="button" @click="registerOpportunities">
-            Cadastrar
-          </button>
-        </div>
+        <Form
+          :tags="tags"
+          @post="registerOpportunities"
+        />
       </div>
     </div>
   </div>
@@ -27,36 +25,20 @@ export default {
     Form
   },
   data: () => ({
-    title: "",
-    author: "Em construção",
-    summary: "",
-    description: "",
-    image: undefined,
-    imgSrc: "",
     tags: [],
-    selectedTags: [],
-    checked: false
   }),
-  computed:{
-    inputHidden() {
-      if (this.checked){
-        return "display: inline";
-      }
-      return "display: none";
-    },
-  },
   methods: {
-    async registerOpportunities() {
-      console.log("Title:", this.title);
-      console.log("Author:", this.author);
-      console.log("Description:", this.description);
+    async registerOpportunities(e) {
+      console.log("Title:", e.title);
+      console.log("Author:", e.author);
+      console.log("Description:", e.description);
 
       const response = await axios.post("http://localhost:3000/opportunities", {
-        title: this.title,
-        author: this.author,
-        description: this.description,
-        summary: this.summary,
-        tags: this.selectedTags
+        title: e.title,
+        author: e.author,
+        description: e.description,
+        summary: e.summary,
+        tags: e.selectedTags
       });
 
       console.log("RESPONSE: ", response.data);
