@@ -1,14 +1,26 @@
 <template>
   <div>
-    <div class="modal" @click="showModal = false" v-if="showModal">
+    <div class="modal" @click="modal" v-if="showModal">
       <transition name="modal">
-        <div id="modal-container" @click.stop class="modal-container">
-          <div class="modal-content">
-            <div class="modal-header"></div>
-            <div class="modal-description"></div>
-            <div class="modal-about"></div>
+        <div id="modal-container" @click.stop class="container">
+          <div class="content">
+            <div class="header">
+              <img src="" alt="image" />
+              <div class="text">
+                <div class="title">TITULO</div>
+                <div class="author">AUTOR</div>
+                <div class="summary">RESUMO</div>
+                <div class="contacts">CONTATINHOS</div>
+              </div>
+            </div>
+            <div class="description">DESCRIÇÃO</div>
+            <div class="about">SOBRE O AUTOR</div>
           </div>
-          <div class="modal-buttons"></div>
+          <div class="buttons">
+            <button class="quit" @click="modal">X</button>
+            <div class="tags">VARIAS TAGS</div>
+            <button class="add-favorites">FAVORITAR</button>
+          </div>
         </div>
       </transition>
     </div>
@@ -72,7 +84,7 @@ export default {
   }),
   methods: {
     modal() {
-      this.showModal = true;
+      this.showModal = !this.showModal;
     },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
@@ -168,7 +180,7 @@ textarea {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-container {
+.modal .container {
   display: flex;
   z-index: 2;
   justify-content: space-around;
@@ -179,31 +191,73 @@ textarea {
   padding: 1rem;
 }
 
-.modal-content {
+.modal .container .content {
   width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.modal-buttons {
+.modal .container .content .header {
+  width: 100%;
+  height: 35%;
+  display: flex;
+}
+
+.modal .container .content .header .text {
+  width: 80%;
+  height: 100%;
+}
+
+.modal .container .content .header img {
   width: 20%;
   height: 100%;
 }
 
-.modal-header {
-  width: 100%;
-  height: 35%;
-}
-
-.modal-description {
+.modal .container .content .description {
   width: 100%;
   height: 45%;
 }
 
-.modal-about {
+.modal .container .content .about {
   width: 100%;
   height: 20%;
+}
+
+.modal .container .buttons {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal .container .buttons .quit {
+  width: 20%;
+  flex-grow: 0.5;
+  align-self: flex-end;
+  margin: 1rem;
+  cursor: pointer;
+  border: solid;
+  background-color: inherit;
+  border-radius: 4px;
+  font-size: large;
+}
+
+.modal .container .buttons .tags {
+  width: 100%;
+  flex-grow: 10;
+}
+
+.modal .container .buttons .add-favorites {
+  width: 100%;
+  flex-grow: 2;
+  background-image: linear-gradient(to right, #673ab7, #4b2a80);
+  margin: 1rem;
+  cursor: pointer;
+  border: none;
+  align-self: flex-end;
+  color: white;
+  border-radius: 4px;
 }
 
 .modal-enter {
@@ -212,31 +266,5 @@ textarea {
 
 .modal-leave-active {
   opacity: 0;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-header img {
-  margin: 1rem;
-}
-
-.btn-favorite {
-  background-image: linear-gradient(to right, #673ab7, #4b2a80);
-  margin: 1rem;
-  cursor: pointer;
-  border: none;
-  width: 30%;
-  align-self: flex-end;
-  color: white;
-  border-radius: 4px;
-  height: 2.4rem;
 }
 </style>
