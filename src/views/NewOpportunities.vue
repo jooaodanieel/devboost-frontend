@@ -25,7 +25,7 @@ export default {
     Form
   },
   data: () => ({
-    tags: [],
+    tags: []
   }),
   methods: {
     async registerOpportunities(e) {
@@ -35,13 +35,13 @@ export default {
 
       const response = await axios.post("http://localhost:3000/opportunities", {
         title: e.title,
-        author: e.author,
+        author: "Em construção",
         description: e.description,
         summary: e.summary,
-        tags: e.selectedTags
+        tags: e.tags
       });
 
-      console.log("RESPONSE: ", response.data);
+      console.log("RESPONSE: ", response);
     },
     handleChange(evt) {
       this.image = evt.target.files[0];

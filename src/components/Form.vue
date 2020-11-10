@@ -79,7 +79,6 @@ export default {
     postOpportunities() {
       this.$emit("post", {
         title: this.title,
-        author: this.author,
         description: this.description,
         summary: this.summary,
         tags: this.selectedTags
