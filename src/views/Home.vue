@@ -3,29 +3,12 @@
     <div class="modal" @click="showModal = false" v-if="showModal">
       <transition name="modal">
         <div id="modal-container" @click.stop class="modal-container">
-          <div class="modal-header">
-            <img src="" alt="Imagem Oportunidade" />
-            <div>
-              <p>Título</p>
-              <p>Autor</p>
-              <p>Resumo</p>
-              <div class="modal-contacts">
-                <p>Contato1: 49239432</p>
-                <p>Contato2: @jfsdff</p>
-              </div>
-            </div>
+          <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-description"></div>
+            <div class="modal-about"></div>
           </div>
-          <div class="modal-description">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-              reiciendis, modi omnis dolore voluptatem dolor praesentium placeat
-              iure optio, corporis repudiandae rerum, officia obcaecati sit
-              inventore nesciunt magni nemo ipsam!
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn-favorite">Favoritar</button>
-          </div>
+          <div class="modal-buttons"></div>
         </div>
       </transition>
     </div>
@@ -188,12 +171,39 @@ textarea {
 .modal-container {
   display: flex;
   z-index: 2;
-  flex-direction: column;
   justify-content: space-around;
   width: 70%;
   height: 70%;
   border-radius: 6px;
   background-color: lightblue;
+  padding: 1rem;
+}
+
+.modal-content {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-buttons {
+  width: 20%;
+  height: 100%;
+}
+
+.modal-header {
+  width: 100%;
+  height: 35%;
+}
+
+.modal-description {
+  width: 100%;
+  height: 45%;
+}
+
+.modal-about {
+  width: 100%;
+  height: 20%;
 }
 
 .modal-enter {
