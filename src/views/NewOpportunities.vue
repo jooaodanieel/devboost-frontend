@@ -7,10 +7,7 @@
         </header>
       </div>
       <div class="content">
-        <Form
-          :tags="tags"
-          @post="registerOpportunities"
-        />
+        <Form :tags="tags" @post="registerOpportunities" />
       </div>
     </div>
   </div>
@@ -29,10 +26,6 @@ export default {
   }),
   methods: {
     async registerOpportunities(e) {
-      console.log("Title:", e.title);
-      console.log("Author:", e.author);
-      console.log("Description:", e.description);
-
       const response = await axios.post("http://localhost:3000/opportunities", {
         title: e.title,
         author: "Em construção",
@@ -41,7 +34,9 @@ export default {
         tags: e.tags
       });
 
-      console.log("RESPONSE: ", response);
+      if (response.data.status != 200) {
+        console.log("Erro: ", response.data.message);
+      }
     },
     handleChange(evt) {
       this.image = evt.target.files[0];
