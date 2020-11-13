@@ -7,23 +7,35 @@
             <div class="header">
               <img src="" alt="image" />
               <div class="text">
-                <div class="title">TITULO</div>
-                <div class="author">AUTOR</div>
-                <div class="summary">RESUMO</div>
-                <div class="contacts">CONTATINHOS</div>
+                <div class="title">{{ filtered[focus].title }}</div>
+                <div class="author">{{ filtered[focus].author }}</div>
+                <div class="summary">{{ filtered[focus].summary }}</div>
+                <div class="contacts">Numero do Mota: (32)98993-9439</div>
               </div>
             </div>
-            <div class="description">DESCRIÇÃO</div>
-            <div class="about">SOBRE O AUTOR</div>
+            <div class="description">{{ filtered[focus].description }}</div>
+            <div class="about">SOBRE ILE {{ filtered[focus].author }}</div>
           </div>
+
           <div class="buttons">
-            <button class="quit" @click="modal">X</button>
-            <div class="tags">VARIAS TAGS</div>
+            <div class="upper">
+              <button class="quit" @click="modal">X</button>
+              <div class="tags">
+                <div
+                  class="tag"
+                  v-for="(tag, index) in filtered[focus].tags"
+                  :key="index"
+                >
+                  {{ tag }}
+                </div>
+              </div>
+            </div>
             <button class="add-favorites">FAVORITAR</button>
           </div>
         </div>
       </transition>
     </div>
+
     <section class="mainContent">
       <div class="upperSearchBars">
         <div class="titleSearchBar box">
@@ -76,15 +88,19 @@ export default {
   },
   data: () => ({
     showModal: false,
-    opportunities: [],
     filtered: [],
     title: "",
     description: "",
     author: "",
+    focus: 0,
   }),
   methods: {
-    modal() {
+    modal(opportunityID) {
       this.showModal = !this.showModal;
+      if (this.showModal) {
+        this.focus = this.filtered.findIndex(item => item.id == opportunityID);
+        console.log(this.filtered[this.focus]);
+      }
     },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
@@ -229,33 +245,49 @@ textarea {
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.modal .container .buttons .upper {
+  display: flex;
+  flex-direction: column;
 }
 
 .modal .container .buttons .quit {
   width: 20%;
-  flex-grow: 0.5;
   align-self: flex-end;
-  margin: 1rem;
   cursor: pointer;
-  border: solid;
+  border: none;
   background-color: inherit;
   border-radius: 4px;
   font-size: large;
 }
 
 .modal .container .buttons .tags {
-  width: 100%;
-  flex-grow: 10;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal .container .buttons .tags .tag {
+  width: 85%;
+  font-size: 0.9rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border: solid red;
+  background-color: yellow;
 }
 
 .modal .container .buttons .add-favorites {
   width: 100%;
-  flex-grow: 2;
   background-image: linear-gradient(to right, #673ab7, #4b2a80);
-  margin: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
   cursor: pointer;
   border: none;
-  align-self: flex-end;
   color: white;
   border-radius: 4px;
 }

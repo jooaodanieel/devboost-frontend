@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <button class="btn-more-info" @click="modal">
+    <button class="btn-more-info" @click="modal(opportunity.id)">
       Saiba Mais
     </button>
   </div>
