@@ -2,7 +2,7 @@
   <div>
     <form>
       <p>Tags:</p>
-      <DropdownSelect :tags="selectedTags" />
+      <DropdownSelect :tags="tags" :selectedTags="selectedTags"/>
       <div class="checkbox-wrapper">
         <div class="checkbox-field" v-for="(tag, index) in tags" :key="index">
           <input

@@ -2,15 +2,15 @@
   <div class="dropdown">
     <div class="wrapper" style="background: orange">
       <div class="display">
-        <div class="tag" v-for="(tag, index) in tags" :key="index">
+        <div class="tag" v-for="(tag, index) in selectedTags" :key="index">
           {{ tag }}
         </div>
       </div>
-      <div>
+      <button type="button" @click="toggleList">
         button
-      </div>
+      </button>
     </div>
-    <div class="list">
+    <div v-if="visibleList" class="list">
       <div v-for="(tag, index) in tags" :key="index">
         {{ tag }}
       </div>
@@ -20,7 +20,16 @@
 
 <script>
 export default {
-  props: ["tags"]
+  props: ["tags", "selectedTags"],
+  data: () => ({
+    visibleList: false,
+    selectedTags: [],
+  }),
+  methods: {
+    toggleList(){
+      this.visibleList = !this.visibleList;
+    }
+  }
 };
 </script>
 
@@ -31,13 +40,14 @@ export default {
 
 .dropdown {
   background-color: green !important;
-  width: 100%;
+  width: 450px;
 }
 
 .display {
   display: flex;
   align-items: center;
   flex: 1;
+  flex-wrap: wrap;
   overflow: auto;
   font-size: 12px;
 }
@@ -51,9 +61,10 @@ export default {
 
 .list {
   position: absolute;
-  background-color: blue;
+  background-color: rgb(202, 193, 193);
   z-index: 1;
-  height: 1em;
-  width: 20em;
+  overflow-y: scroll;
+  height: 150px;
+  width: 450px;
 }
 </style>
