@@ -1,41 +1,6 @@
 <template>
   <div>
-    <div class="modal" @click="modal" v-if="showModal">
-      <transition name="modal">
-        <div id="modal-container" @click.stop class="container">
-          <div class="content">
-            <div class="header">
-              <img src="" alt="image" />
-              <div class="text">
-                <div class="title">{{ filtered[focus].title }}</div>
-                <div class="author">{{ filtered[focus].author }}</div>
-                <div class="summary">{{ filtered[focus].summary }}</div>
-                <div class="contacts">Numero do Mota: (32)98993-9439</div>
-              </div>
-            </div>
-            <div class="description">{{ filtered[focus].description }}</div>
-            <div class="about">SOBRE ILE {{ filtered[focus].author }}</div>
-          </div>
-
-          <div class="buttons">
-            <div class="upper">
-              <button class="quit" @click="modal">X</button>
-              <div class="tags">
-                <div
-                  class="tag"
-                  v-for="(tag, index) in filtered[focus].tags"
-                  :key="index"
-                >
-                  {{ tag }}
-                </div>
-              </div>
-            </div>
-            <button class="add-favorites">FAVORITAR</button>
-          </div>
-        </div>
-      </transition>
-    </div>
-
+    <Modal :content="focus" v-if="showModal" @closeModal="modal" />
     <section class="mainContent">
       <div class="upperSearchBars">
         <div class="titleSearchBar box">
@@ -79,12 +44,14 @@
 <script>
 import axios from "axios";
 import Card from "@/components/Card.vue";
+import Modal from "@/components/Modal.vue";
 
 // @ == v-on:
 export default {
   name: "Home",
   components: {
     Card,
+    Modal,
   },
   data: () => ({
     showModal: false,
@@ -92,14 +59,16 @@ export default {
     title: "",
     description: "",
     author: "",
-    focus: 0,
+    focus: {},
   }),
   methods: {
     modal(opportunityID) {
       this.showModal = !this.showModal;
       if (this.showModal) {
-        this.focus = this.filtered.findIndex(item => item.id == opportunityID);
-        console.log(this.filtered[this.focus]);
+        const index = this.filtered.findIndex(
+          (item) => item.id == opportunityID
+        );
+        this.focus = this.filtered[index];
       }
     },
     async submitSearch() {
@@ -181,122 +150,5 @@ textarea {
 
 .mainContent img {
   height: 1rem;
-}
-
-.modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal .container {
-  display: flex;
-  z-index: 2;
-  justify-content: space-around;
-  width: 70%;
-  height: 70%;
-  border-radius: 6px;
-  background-color: lightblue;
-  padding: 1rem;
-}
-
-.modal .container .content {
-  width: 80%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal .container .content .header {
-  width: 100%;
-  height: 35%;
-  display: flex;
-}
-
-.modal .container .content .header .text {
-  width: 80%;
-  height: 100%;
-}
-
-.modal .container .content .header img {
-  width: 20%;
-  height: 100%;
-}
-
-.modal .container .content .description {
-  width: 100%;
-  height: 45%;
-}
-
-.modal .container .content .about {
-  width: 100%;
-  height: 20%;
-}
-
-.modal .container .buttons {
-  width: 20%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.modal .container .buttons .upper {
-  display: flex;
-  flex-direction: column;
-}
-
-.modal .container .buttons .quit {
-  width: 20%;
-  align-self: flex-end;
-  cursor: pointer;
-  border: none;
-  background-color: inherit;
-  border-radius: 4px;
-  font-size: large;
-}
-
-.modal .container .buttons .tags {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.modal .container .buttons .tags .tag {
-  width: 85%;
-  font-size: 0.9rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  border: solid red;
-  background-color: yellow;
-}
-
-.modal .container .buttons .add-favorites {
-  width: 100%;
-  background-image: linear-gradient(to right, #673ab7, #4b2a80);
-  margin: 1rem 0;
-  padding: 1rem;
-  cursor: pointer;
-  border: none;
-  color: white;
-  border-radius: 4px;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
 }
 </style>
