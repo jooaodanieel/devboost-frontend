@@ -14,13 +14,15 @@
       </div>
     </div>
 
-    <button class="btn-more-info">Saiba Mais</button>
+    <button class="btn-more-info" @click="modal(opportunity.id)">
+      Saiba Mais
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["opportunity"]
+  props: ["opportunity", "modal"],
 };
 </script>
 
@@ -49,8 +51,9 @@ export default {
 }
 
 .btn-more-info {
-  background-color: blueviolet;
+  background-image: linear-gradient(to right, #673ab7, #4b2a80);
   margin-top: 1rem;
+  cursor: pointer;
   border: none;
   width: 30%;
   align-self: flex-end;

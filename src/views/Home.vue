@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Modal :content="focus" v-if="showModal" @closeModal="modal" />
     <section class="mainContent">
       <div class="upperSearchBars">
         <div class="titleSearchBar box">
@@ -30,11 +31,11 @@
           placeholder="Buscar pela descrição..."
         />
       </div>
-
       <Card
         v-for="(opportunity, index) in filteredOpportunities"
         :key="index"
         :opportunity="opportunity"
+        :modal="modal"
       />
     </section>
   </div>
@@ -43,42 +44,54 @@
 <script>
 import axios from "axios";
 import Card from "@/components/Card.vue";
+import Modal from "@/components/Modal.vue";
 
 // @ == v-on:
 export default {
   name: "Home",
   components: {
-    Card
+    Card,
+    Modal,
   },
   data: () => ({
-    opportunities: [],
+    showModal: false,
     filtered: [],
     title: "",
     description: "",
-    author: ""
+    author: "",
+    focus: {},
   }),
   methods: {
+    modal(opportunityID) {
+      this.showModal = !this.showModal;
+      if (this.showModal) {
+        const index = this.filtered.findIndex(
+          (item) => item.id == opportunityID
+        );
+        this.focus = this.filtered[index];
+      }
+    },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
         params: {
           title: this.title,
           description: this.description,
-          author: this.author
-        }
+          author: this.author,
+        },
       });
       this.filtered = response.data.opportunities;
-    }
+    },
   },
   computed: {
     filteredOpportunities() {
       return this.filtered;
-    }
+    },
   },
   async created() {
     const response = await axios.get("http://localhost:3000/opportunities");
     const body = await response.data;
     this.filtered = body.opportunities;
-  }
+  },
 };
 </script>
 <style scoped>
