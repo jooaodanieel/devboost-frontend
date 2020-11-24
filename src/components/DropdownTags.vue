@@ -14,8 +14,13 @@
       </span>
     </div>
     <div v-if="visibleList" class="list">
-      <div v-for="(tag, index) in tags" :key="index">
+      <div
+        :style="checkedBackground(tag)"
+        v-for="(tag, index) in tags"
+        :key="index"
+      >
         <input
+          class="checkbox"
           :name="tag"
           type="checkbox"
           :value="tag"
@@ -25,7 +30,12 @@
         <label :for="tag">{{ tag }}</label>
       </div>
       <div class="checkbox-field">
-        <input name="other" v-model="checked" type="checkbox" />
+        <input
+          class="checkbox"
+          name="other"
+          v-model="checked"
+          type="checkbox"
+        />
         <label class="placeholder" v-if="!checked" for="other">Outro</label>
         <input
           :style="inputHidden"
@@ -82,6 +92,12 @@ export default {
       e.target.value = "";
       e.target.checked = false;
       this.checked = false;
+    },
+    checkedBackground(tag) {
+      if (this.localSelectedTags.includes(tag)) {
+        return "background-color: rgba(0,0,0,.1)";
+      }
+      return "";
     }
   },
   computed: {
@@ -99,6 +115,13 @@ export default {
 </script>
 
 <style scoped>
+.checkbox {
+  padding: 5px;
+  margin: 10px 15px;
+  width: 16px;
+  height: 16px;
+}
+
 .dropdown {
   width: 450px;
 }
@@ -134,10 +157,10 @@ export default {
 
 .list {
   position: absolute;
-  background-color: rgb(202, 193, 193);
+  background-color: white;
   z-index: 1;
   overflow-y: scroll;
-  max-height: 150px;
+  max-height: 250px;
   width: 450px;
 }
 
