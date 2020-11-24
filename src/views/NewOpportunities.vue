@@ -7,12 +7,7 @@
         </header>
       </div>
       <div class="content">
-        <Form :tags="tags" :selectedTags="selectedTags" />
-        <div class="buttons">
-          <button type="button" @click="registerOpportunities">
-            Cadastrar
-          </button>
-        </div>
+        <Form :tags="tags" @post="registerOpportunities" />
       </div>
     </div>
   </div>
@@ -27,39 +22,21 @@ export default {
     Form
   },
   data: () => ({
-    title: "",
-    author: "Em construção",
-    summary: "",
-    description: "",
-    image: undefined,
-    imgSrc: "",
-    tags: [],
-    selectedTags: [],
-    checked: false
+    tags: []
   }),
-  computed:{
-    inputHidden() {
-      if (this.checked){
-        return "display: inline";
-      }
-      return "display: none";
-    },
-  },
   methods: {
-    async registerOpportunities() {
-      console.log("Title:", this.title);
-      console.log("Author:", this.author);
-      console.log("Description:", this.description);
-
+    async registerOpportunities(e) {
       const response = await axios.post("http://localhost:3000/opportunities", {
-        title: this.title,
-        author: this.author,
-        description: this.description,
-        summary: this.summary,
-        tags: this.selectedTags
+        title: e.title,
+        author: "Em construção",
+        description: e.description,
+        summary: e.summary,
+        tags: e.tags
       });
 
-      console.log("RESPONSE: ", response.data);
+      if (response.data.status != 200) {
+        console.log("Erro: ", response.data.message);
+      }
     },
     handleChange(evt) {
       this.image = evt.target.files[0];
