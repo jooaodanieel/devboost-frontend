@@ -15,9 +15,11 @@
     </div>
     <div v-if="visibleList" class="list">
       <div
+        class="checkbox-wrapper"
         :style="checkedBackground(tag)"
         v-for="(tag, index) in tags"
         :key="index"
+        @click="emitTagsChange(tag)"
       >
         <input
           class="checkbox"
@@ -25,16 +27,19 @@
           type="checkbox"
           :value="tag"
           :checked="localSelectedTags.includes(tag)"
-          @click="emitTagsChange"
         />
         <label :for="tag">{{ tag }}</label>
       </div>
-      <div class="checkbox-field">
+      <div
+        :v-if="!checked"
+        class="special-checkbox checkbox-wrapper"
+        @click="toggleSpecialCheckbox"
+      >
         <input
           class="checkbox"
           name="other"
-          v-model="checked"
           type="checkbox"
+          v-model="checked"
         />
         <label class="placeholder" v-if="!checked" for="other">Outro</label>
         <input
@@ -67,15 +72,17 @@ export default {
     toggleList() {
       this.visibleList = !this.visibleList;
     },
-    emitTagsChange(e) {
-      const tag = e.target;
-      const isSelected = this.localSelectedTags.includes(tag.value);
+    toggleSpecialCheckbox() {
+      if (!this.checked) {
+        this.checked = true;
+      }
+    },
+    emitTagsChange(tag) {
+      const isSelected = this.localSelectedTags.includes(tag);
       if (!isSelected) {
-        this.localSelectedTags.push(e.target.value);
+        this.localSelectedTags.push(tag);
       } else {
-        this.localSelectedTags = this.localSelectedTags.filter(
-          el => el != e.target.value
-        );
+        this.localSelectedTags = this.localSelectedTags.filter(el => el != tag);
       }
       this.$emit("update", this.localSelectedTags);
     },
@@ -115,13 +122,6 @@ export default {
 </script>
 
 <style scoped>
-.checkbox {
-  padding: 5px;
-  margin: 10px 15px;
-  width: 16px;
-  height: 16px;
-}
-
 .dropdown {
   width: 450px;
 }
@@ -129,6 +129,7 @@ export default {
 .wrapper {
   min-height: 28px;
   display: flex;
+  align-items: center;
   background-color: white;
 }
 
@@ -160,34 +161,43 @@ export default {
   background-color: white;
   z-index: 1;
   overflow-y: scroll;
-  max-height: 250px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  max-height: 350px;
   width: 450px;
 }
 
-.checkbox-field {
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.checkbox-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 5px 10px 5px 0;
+  cursor: pointer;
 }
 
-.checkbox-field label {
-  margin: 0 3px;
+.checkbox {
+  padding: 5px;
+  margin: 15px 20px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
-.checkbox-field .placeholder {
+.special-checkbox .placeholder {
   opacity: 50%;
 }
 
-.checkbox-field .checkbox-text {
-  margin-left: 3px;
-  padding-left: 5px;
+.special-checkbox .checkbox-text {
+  padding-left: 10px;
   background: none;
   border: 1px solid black;
-  outline: none;
-  width: 100px;
-  height: 25px;
   border-radius: 6px;
+  outline: none;
+  width: 180px;
+  height: 30px;
 }
 
 .select {
