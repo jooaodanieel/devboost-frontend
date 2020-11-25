@@ -3,6 +3,15 @@
     <Modal :content="focus" v-if="showModal" @closeModal="modal" />
     <section class="mainContent">
       <div class="upperSearchBars">
+        <div class="generalSearchBar">
+          <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
+          <input
+            v-on:keyup.enter="submitSearch"
+            type="text"
+            v-model="general"
+            placeholder="Procurar oportunidade"
+          />
+        </div>
         <div class="titleSearchBar box">
           <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
           <input
@@ -56,6 +65,7 @@ export default {
   data: () => ({
     showModal: false,
     filtered: [],
+    general: "",
     title: "",
     description: "",
     author: "",
@@ -65,15 +75,14 @@ export default {
     modal(opportunityID) {
       this.showModal = !this.showModal;
       if (this.showModal) {
-        const index = this.filtered.findIndex(
-          (item) => item.id == opportunityID
-        );
+        const index = this.filtered.findIndex(item => item.id == opportunityID);
         this.focus = this.filtered[index];
       }
     },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
         params: {
+          general: this.general,
           title: this.title,
           description: this.description,
           author: this.author,
