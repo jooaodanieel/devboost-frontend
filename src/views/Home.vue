@@ -2,43 +2,49 @@
   <div>
     <Modal :content="focus" v-if="showModal" @closeModal="modal" />
     <section class="mainContent">
-      <div class="upperSearchBars">
-        <div class="generalSearchBar">
-          <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
-          <input
-            v-on:keyup.enter="submitSearch"
-            type="text"
-            v-model="general"
-            placeholder="Procurar oportunidade"
-          />
-        </div>
-        <div class="titleSearchBar box">
-          <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
-          <input
-            v-on:keyup.enter="submitSearch"
-            type="text"
-            v-model="title"
-            placeholder="Buscar pelo título..."
-          />
-        </div>
-        <div class="authorSearchBar box">
-          <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
-          <input
-            v-on:keyup.enter="submitSearch"
-            type="text"
-            v-model="author"
-            placeholder="Buscar por autor..."
-          />
-        </div>
-      </div>
-      <div class="descriptionSearchBar box">
+      <div class="upperSearchBars generalSearchBar box">
         <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
-        <textarea
-          v-on:keydown.enter.prevent="submitSearch"
+        <input
+          v-on:keyup.enter="submitSearch"
           type="text"
-          v-model="description"
-          placeholder="Buscar pela descrição..."
+          v-model="general"
+          placeholder="Procurar oportunidade"
         />
+        <button @click="openAdvancedSearch" class="arrowButton">
+          <img :src="setAdvancedSearchImage" alt="Seta" />
+        </button>
+      </div>
+
+      <div v-if="showAdvancedSearch" style="width: 100%;">
+        <div class="upperSearchBars">
+          <div class="titleSearchBar box">
+            <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
+            <input
+              v-on:keyup.enter="submitSearch"
+              type="text"
+              v-model="title"
+              placeholder="Buscar pelo título..."
+            />
+          </div>
+          <div class="authorSearchBar box">
+            <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
+            <input
+              v-on:keyup.enter="submitSearch"
+              type="text"
+              v-model="author"
+              placeholder="Buscar por autor..."
+            />
+          </div>
+        </div>
+        <div class="descriptionSearchBar box">
+          <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
+          <textarea
+            v-on:keydown.enter.prevent="submitSearch"
+            type="text"
+            v-model="description"
+            placeholder="Buscar pela descrição..."
+          />
+        </div>
       </div>
       <Card
         v-for="(opportunity, index) in filteredOpportunities"
@@ -54,22 +60,25 @@
 import axios from "axios";
 import Card from "@/components/Card.vue";
 import Modal from "@/components/Modal.vue";
+import upArrow from "@/assets/uparrow.png";
+import downArrow from "@/assets/downarrow.png";
 
 // @ == v-on:
 export default {
   name: "Home",
   components: {
     Card,
-    Modal,
+    Modal
   },
   data: () => ({
     showModal: false,
+    showAdvancedSearch: false,
     filtered: [],
     general: "",
     title: "",
     description: "",
     author: "",
-    focus: {},
+    focus: {}
   }),
   methods: {
     modal(opportunityID) {
@@ -79,28 +88,34 @@ export default {
         this.focus = this.filtered[index];
       }
     },
+    openAdvancedSearch() {
+      this.showAdvancedSearch = !this.showAdvancedSearch;
+    },
     async submitSearch() {
       const response = await axios.get("http://localhost:3000/opportunities", {
         params: {
           general: this.general,
           title: this.title,
           description: this.description,
-          author: this.author,
-        },
+          author: this.author
+        }
       });
       this.filtered = response.data.opportunities;
-    },
+    }
   },
   computed: {
     filteredOpportunities() {
       return this.filtered;
     },
+    setAdvancedSearchImage() {
+      return this.showAdvancedSearch ? upArrow : downArrow;
+    }
   },
   async created() {
     const response = await axios.get("http://localhost:3000/opportunities");
     const body = await response.data;
     this.filtered = body.opportunities;
-  },
+  }
 };
 </script>
 <style scoped>
@@ -126,10 +141,24 @@ export default {
   width: 100%;
 }
 
+.arrowButton {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
 .upperSearchBars {
   display: flex;
   width: 100%;
-  margin: 20px 0px;
+  margin: 10px 0px;
+}
+
+.generalSearchBar {
+  margin-bottom: 1px;
 }
 
 .titleSearchBar {
