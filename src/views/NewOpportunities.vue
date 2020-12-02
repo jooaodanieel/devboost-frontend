@@ -26,13 +26,14 @@ export default {
   }),
   methods: {
     async registerOpportunities(e) {
-      const response = await axios.post("http://localhost:3000/opportunities", {
-        title: e.title,
-        author: "Em construção",
-        description: e.description,
-        summary: e.summary,
-        tags: e.tags
-      });
+      const data = new FormData();
+      data.append("title", e.title);
+      data.append("author", "em construção");
+      data.append("description", e.description);
+      data.append("image", e.image);
+      data.append("summary", e.summary);
+      data.append("tags", e.tags.join(","));
+      const response = await axios.post("http://localhost:3000/opportunities", data);
 
       if (response.data.status != 200) {
         console.log("Erro: ", response.data.message);

@@ -4,7 +4,7 @@
       <div class="container" id="modal-container" @click.stop>
         <div class="content">
           <div class="header">
-            <img src="" alt="image" />
+            <img :src="content.image" alt="image" />
             <div class="text">
               <div class="title">{{ content.title }}</div>
               <div class="author">{{ content.author }}</div>
