@@ -30,9 +30,9 @@ export default {
       data.append("title", e.title);
       data.append("author", "em construção");
       data.append("description", e.description);
-      data.append("image", e.image);
       data.append("summary", e.summary);
       data.append("tags", e.tags.join(","));
+      data.append("image", e.image);
       const response = await axios.post("http://localhost:3000/opportunities", data);
 
       if (response.data.status != 200) {
