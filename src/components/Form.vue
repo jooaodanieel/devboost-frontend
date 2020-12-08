@@ -56,7 +56,8 @@ export default {
         title: this.title,
         description: this.description,
         summary: this.summary,
-        tags: this.selectedTags
+        tags: this.selectedTags,
+        image: this.image
       });
     },
     handleChange(evt) {
