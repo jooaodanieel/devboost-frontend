@@ -2,6 +2,11 @@
   <div>
     <Modal :content="focus" v-if="showModal" @closeModal="modal" />
     <section class="mainContent">
+      <SearchFilter 
+        placeholder="Procurar oportunidade" 
+        :hasArrow="true"
+        v-model="general"
+      />
       <div class="upperSearchBars generalSearchBar box">
         <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
         <input
@@ -38,7 +43,7 @@
         </div>
         <div class="descriptionSearchBar box">
           <img src="https://svgsilh.com/png-512/1093184.png" alt="Lupa" />
-          <textarea
+          <textarea 
             v-on:keydown.enter.prevent="submitSearch"
             type="text"
             v-model="description"
@@ -62,13 +67,15 @@ import Card from "@/components/Card.vue";
 import Modal from "@/components/Modal.vue";
 import upArrow from "@/assets/uparrow.png";
 import downArrow from "@/assets/downarrow.png";
+import SearchFilter from "@/components/SearchFilter.vue";
 
 // @ == v-on:
 export default {
   name: "Home",
   components: {
     Card,
-    Modal
+    Modal,
+    SearchFilter
   },
   data: () => ({
     showModal: false,
@@ -130,6 +137,7 @@ export default {
   display: flex;
   padding: 10px;
   background-color: #9ad8f2;
+  width: 100%;
   border-radius: 4px;
 }
 
@@ -162,8 +170,7 @@ export default {
 }
 
 .titleSearchBar {
-  width: 100%;
-  background-color: #9ad8f2;
+  
   margin-right: 20px;
 }
 

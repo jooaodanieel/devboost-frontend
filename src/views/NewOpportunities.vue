@@ -33,7 +33,10 @@ export default {
       data.append("summary", e.summary);
       data.append("tags", e.tags.join(","));
       data.append("image", e.image);
-      const response = await axios.post("http://localhost:3000/opportunities", data);
+      const response = await axios.post(
+        "http://localhost:3000/opportunities",
+        data
+      );
 
       if (response.data.status != 200) {
         console.log("Erro: ", response.data.message);
